@@ -1,0 +1,210 @@
+timestamp: 2011-11-18T13:49:00.974000
+CREATE TABLE auth_user(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name CHAR(128),
+    last_name CHAR(128),
+    email CHAR(512),
+    password CHAR(512),
+    registration_key CHAR(512),
+    reset_password_key CHAR(512)
+);
+success!
+timestamp: 2011-11-18T13:49:00.990000
+CREATE TABLE auth_group(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    role CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2011-11-18T13:49:00.990000
+CREATE TABLE auth_membership(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user(id) ON DELETE CASCADE,
+    group_id INTEGER REFERENCES auth_group(id) ON DELETE CASCADE
+);
+success!
+timestamp: 2011-11-18T13:49:01.036000
+CREATE TABLE auth_permission(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    group_id INTEGER REFERENCES auth_group(id) ON DELETE CASCADE,
+    name CHAR(512),
+    table_name CHAR(512),
+    record_id INTEGER
+);
+success!
+timestamp: 2011-11-18T13:49:01.036000
+CREATE TABLE auth_event(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    time_stamp TIMESTAMP,
+    client_ip CHAR(512),
+    user_id INTEGER REFERENCES auth_user(id) ON DELETE CASCADE,
+    origin CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2011-11-18T13:49:01.052000
+CREATE TABLE auth_cas(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user(id) ON DELETE CASCADE,
+    created_on TIMESTAMP,
+    url CHAR(512),
+    uuid CHAR(512)
+);
+success!
+timestamp: 2011-11-18T13:49:01.083000
+CREATE TABLE reviewer(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    screenname CHAR(32768),
+    userid INTEGER REFERENCES auth_user(id) ON DELETE CASCADE,
+    photo CHAR(32768),
+    city CHAR(25),
+    state CHAR(25),
+    country CHAR(25),
+    loves CHAR(200),
+    likes CHAR(200),
+    dislikes CHAR(200),
+    about_me TEXT
+);
+success!
+timestamp: 2011-11-18T13:50:20.159000
+CREATE TABLE region(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(25),
+    blurb CHAR(500),
+    photo CHAR(32768),
+    city CHAR(25),
+    state CHAR(25),
+    country CHAR(25),
+    product_categories CHAR(400),
+    product_lines CHAR(400),
+    famous_for CHAR(200),
+    about TEXT
+);
+success!
+timestamp: 2011-11-18T13:50:20.175000
+CREATE TABLE place(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(25),
+    blurb CHAR(500),
+    photo CHAR(32768),
+    company INTEGER REFERENCES region(id) ON DELETE CASCADE,
+    type CHAR(25),
+    notable CHAR(400),
+    description CHAR(400),
+    cost CHAR(200),
+    about TEXT
+);
+success!
+timestamp: 2011-11-18T13:50:20.190000
+CREATE TABLE event(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(25),
+    blurb CHAR(500),
+    photo CHAR(32768),
+    company INTEGER REFERENCES region(id) ON DELETE CASCADE,
+    address CHAR(200),
+    product INTEGER REFERENCES place(id) ON DELETE CASCADE,
+    description CHAR(200),
+    launch CHAR(1),
+    cost CHAR(200),
+    atmosphere CHAR(512),
+    about TEXT
+);
+success!
+timestamp: 2011-11-18T13:50:20.222000
+CREATE TABLE region_review(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ref_id INTEGER REFERENCES region(id) ON DELETE CASCADE,
+    blurb CHAR(500),
+    author INTEGER REFERENCES reviewer(id) ON DELETE CASCADE,
+    photo CHAR(32768),
+    photo1 CHAR(32768),
+    photo2 CHAR(32768),
+    title CHAR(100),
+    subject CHAR(25),
+    the_good CHAR(250),
+    the_bad CHAR(250),
+    date TIMESTAMP,
+    text TEXT
+);
+success!
+timestamp: 2011-11-18T13:50:20.237000
+CREATE TABLE place_review(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ref_id INTEGER REFERENCES place(id) ON DELETE CASCADE,
+    blurb CHAR(500),
+    author INTEGER REFERENCES reviewer(id) ON DELETE CASCADE,
+    photo CHAR(32768),
+    photo1 CHAR(32768),
+    photo2 CHAR(32768),
+    title CHAR(100),
+    subject CHAR(25),
+    the_good CHAR(250),
+    the_bad CHAR(250),
+    date TIMESTAMP,
+    text TEXT
+);
+success!
+timestamp: 2011-11-18T13:50:20.253000
+CREATE TABLE event_review(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ref_id INTEGER REFERENCES event(id) ON DELETE CASCADE,
+    blurb CHAR(500),
+    author INTEGER REFERENCES reviewer(id) ON DELETE CASCADE,
+    photo CHAR(32768),
+    photo1 CHAR(32768),
+    photo2 CHAR(32768),
+    title CHAR(100),
+    subject CHAR(25),
+    the_good CHAR(250),
+    the_bad CHAR(250),
+    type CHAR(25),
+    date TIMESTAMP,
+    text TEXT
+);
+success!
+timestamp: 2011-11-18T13:50:20.253000
+CREATE TABLE plugin_simple_comments_comment(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    tablename CHAR(512),
+    record_id INTEGER,
+    body TEXT,
+    created_by INTEGER REFERENCES auth_user(id) ON DELETE CASCADE,
+    created_on TIMESTAMP
+);
+success!
+timestamp: 2011-11-18T14:13:50.737000
+ALTER TABLE place ADD region INTEGER REFERENCES region(id) ON DELETE CASCADE;
+timestamp: 2011-11-18T14:13:50.768000
+ALTER TABLE event ADD region INTEGER REFERENCES region(id) ON DELETE CASCADE;
+timestamp: 2011-11-18T14:13:50.768000
+ALTER TABLE event ADD place INTEGER REFERENCES place(id) ON DELETE CASCADE;
+timestamp: 2011-11-21T09:14:44.265000
+CREATE TABLE plugin_rating_master(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    tablename CHAR(512),
+    record_id INTEGER,
+    rating DOUBLE,
+    counter INTEGER
+);
+success!
+timestamp: 2011-11-21T09:14:44.281000
+CREATE TABLE plugin_rating_aux(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    master INTEGER REFERENCES plugin_rating_master(id) ON DELETE CASCADE,
+    rating DOUBLE,
+    created_by INTEGER REFERENCES auth_user(id) ON DELETE CASCADE
+);
+success!
+timestamp: 2011-11-21T09:56:30.821000
+ALTER TABLE region_review ADD stars INTEGER;
+timestamp: 2011-11-21T09:56:30.914000
+ALTER TABLE place_review ADD stars INTEGER;
+timestamp: 2011-11-21T09:56:30.957000
+ALTER TABLE event_review ADD stars INTEGER;
+timestamp: 2011-11-21T10:02:21.071000
+ALTER TABLE region_review ADD rating INTEGER;
+timestamp: 2011-11-21T10:02:21.106000
+ALTER TABLE place_review ADD rating INTEGER;
+timestamp: 2011-11-21T10:02:21.140000
+ALTER TABLE event_review ADD rating INTEGER;
