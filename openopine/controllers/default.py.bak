@@ -224,8 +224,8 @@ def profile():
     if not place_or_event:
         rpics = db(db.place.region == request_arg_1).select(db.place.ALL)
         epics = db(db.event.region == request_arg_1).select(db.event.ALL)
-        rgraphics = photo_list(rpics, min(profile_photo_limit/3,len(rpics)), redirect='place', photo_field='photo', first='name', secondary=None, random_disp=True, reverse=False)
-        egraphics = photo_list(epics, min(profile_photo_limit/3,len(epics)), redirect='event', photo_field='photo', first='name', secondary=None, random_disp=True, reverse=False)
+        rgraphics = photo_list(rpics, min(profile_photo_limit/3,len(rpics)), redirect='places', photo_field='photo', first='name', secondary=None, random_disp=True, reverse=False)
+        egraphics = photo_list(epics, min(profile_photo_limit/3,len(epics)), redirect='places', photo_field='photo', first='name', secondary=None, random_disp=True, reverse=False)
     tablepics = db[session.tablename+"_review"]
     photos = db(tablepics.ref_id == request_arg_1).select(tablepics.ALL)
     graphics = photo_list(photos, min(profile_photo_limit/3,len(photos)), redirect=session.tablename, first="title", secondary="subject")
