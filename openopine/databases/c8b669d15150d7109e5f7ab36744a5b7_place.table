@@ -38,13 +38,13 @@ p16
 ssS'company'
 p17
 (dp18
-S'sortable'
+S'type'
 p19
-I5
-sS'type'
-p20
 S'reference region'
+p20
+sS'sortable'
 p21
+I5
 sS'sql'
 p22
 S'INTEGER REFERENCES region(id) ON DELETE CASCADE'
@@ -52,37 +52,37 @@ p23
 ssS'notable'
 p24
 (dp25
-S'sortable'
+S'type'
 p26
-I7
-sS'type'
-p27
 S'string'
+p27
+sS'sortable'
 p28
+I7
 sS'sql'
 p29
 S'CHAR(400)'
 p30
-ssS'cost'
+ssS'id'
 p31
 (dp32
+g4
+S'id'
+p33
+sg6
+I1
+sg7
+S'INTEGER PRIMARY KEY AUTOINCREMENT'
+p34
+ssS'cost'
+p35
+(dp36
 g4
 g11
 sg6
 I8
 sg7
 S'CHAR(200)'
-p33
-ssS'region'
-p34
-(dp35
-g4
-S'reference region'
-p36
-sg6
-I5
-sg7
-S'INTEGER REFERENCES region(id) ON DELETE CASCADE'
 p37
 ssS'type'
 p38
@@ -94,16 +94,16 @@ I6
 sg7
 S'CHAR(25)'
 p40
-ssS'id'
+ssS'region'
 p41
 (dp42
 g4
-S'id'
+S'reference region'
 p43
 sg6
-I1
+I5
 sg7
-S'INTEGER PRIMARY KEY AUTOINCREMENT'
+S'INTEGER REFERENCES region(id) ON DELETE CASCADE'
 p44
 ssS'blurb'
 p45

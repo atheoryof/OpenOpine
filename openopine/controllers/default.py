@@ -122,7 +122,7 @@ def reviewer_profile():
     graphics = []
     for name in ('place','event','region'):
         tablepics = db[name+"_review"]
-        photos = db(tablepics.author == request_arg_1).select(tablepics.ALL)
+        photos = db((tablepics.author == request_arg_1)&(tablepics.publish==True)).select(tablepics.ALL)
         graphics += photo_list(photos, min(profile_photo_limit,len(photos)), redirect=name, first="title", secondary="subject")
     return dict(graphics=graphics, searchrevs=[], searchprofs=[],tag_form='', rec=rec, message= rec.screenname)
 
@@ -141,7 +141,7 @@ def reviews():
     items_per_page = 12
     limitby=(items_per_page*page, items_per_page*(page+1)+1)
     table = db[session.tablename+"_"+search_type]
-    recs = db().select(table.id, table.photo, table.blurb, table.title, table.subject, limitby=limitby)
+    recs = db(table.publish==True).select(table.id, table.photo, table.blurb, table.title, table.subject, limitby=limitby)
     viewname = tablelabel(session.tablename)
     reviews, profiles = quick_search()
     return dict(searchrevs=[], searchprofs=reviews, tag_form='', recs=recs, page=page, tablename=session.tablename, items_per_page=items_per_page, redirecttype='review', search_type=search_type, message=T('%(tbl)s Reviews', dict(tbl=viewname)))
@@ -169,7 +169,7 @@ def review():
     if not (request_arg_1>0): redirect(URL(request.application, 'default' ,'reviews', vars=dict(tbl='place')))
     fulltablename = session.tablename+"_"+search_type
     table = db[fulltablename]
-    rec = db(table.id==request_arg_1).select(table.ALL)
+    rec = db((table.id==request_arg_1)&(table.publish==True)).select(table.ALL)
     if len(rec): rec = rec[0]
     else: redirect(URL(request.application, 'default' ,'reviews', vars=dict(tbl='place')))
     name = db[session.tablename][rec.ref_id].name
@@ -227,7 +227,7 @@ def profile():
         rgraphics = photo_list(rpics, min(profile_photo_limit/3,len(rpics)), redirect='place', photo_field='photo', first='name', secondary=None, random_disp=True, reverse=False)
         egraphics = photo_list(epics, min(profile_photo_limit/3,len(epics)), redirect='event', photo_field='photo', first='name', secondary=None, random_disp=True, reverse=False)
     tablepics = db[session.tablename+"_review"]
-    photos = db(tablepics.ref_id == request_arg_1).select(tablepics.ALL)
+    photos = db((tablepics.ref_id == request_arg_1)&(tablepics.publish==True)).select(tablepics.ALL)
     graphics = photo_list(photos, min(profile_photo_limit/3,len(photos)), redirect=session.tablename, first="title", secondary="subject")
     return dict(graphics=graphics, rgraphics=rgraphics, egraphics=egraphics, searchrevs=[], searchprofs=[],tag_form='', place_or_event= place_or_event, rec=rec, message=T('%(name)s', rec))
 
@@ -306,7 +306,8 @@ def create_review():
 @auth.requires_membership('admin')
 def create_contributor():
     addrev = lambda form: auth.add_membership(auth.id_group("reviewer"), int(form.vars.userid))
-    form = SQLFORM.grid(db.reviewer, oncreate=addrev, csv=False, headers=dict([('reviewer.screenname',T('Display Name')),('reviewer.userid', T('User')),('reviewer.city', T("City")),('reviewer.state', T("State")),('reviewer.country', T("Country"))]), columns=dict([('reviewer.screenname',15),('reviewer.userid', 15),('reviewer.city', 15),('reviewer.state', 15),('reviewer.country', 15)]))
+    delrev = lambda table, itid: auth.del_membership(auth.id_group("reviewer"), table[int(itid)].userid) #ondelete=delrev, db(table.id == int(itid)).select()[0]["userid"]) #
+    form = SQLFORM.grid(db.reviewer, oncreate=addrev, ondelete=delrev, csv=False, headers=dict([('reviewer.screenname',T('Display Name')),('reviewer.userid', T('User')),('reviewer.city', T("City")),('reviewer.state', T("State")),('reviewer.country', T("Country"))]), columns=dict([('reviewer.screenname',15),('reviewer.userid', 15),('reviewer.city', 15),('reviewer.state', 15),('reviewer.country', 15)]))
     return dict(searchrevs=[], searchprofs=[],tag_form='', form=form, message=T('Manage Contributors'))
 
 def tablelabel(tablename):

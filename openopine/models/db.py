@@ -180,7 +180,8 @@ db.define_table('region_review',
                 Field('the_bad', 'string', length=250,requires=IS_LENGTH(250,2)), 
                 Field('date', 'datetime', default=datetime.datetime.now()), 
                 Field('text', 'text'), 
-                Field('rating', 'integer', default=1, requires=IS_IN_SET([1,2,3,4,5]), widget=RatingWidget.widget)
+                Field('rating', 'integer', default=1, requires=IS_IN_SET([1,2,3,4,5]), widget=RatingWidget.widget),
+                Field('publish', 'boolean', default=True)
                 )
 
 db.define_table('place_review', 
@@ -196,7 +197,8 @@ db.define_table('place_review',
                 Field('the_bad', 'string', length=250,requires=IS_LENGTH(250,2)), 
                 Field('date', 'datetime', default=datetime.datetime.now()), 
                 Field('text', 'text'),
-                Field('rating', 'integer', default=1,  requires=IS_IN_SET([1,2,3,4,5]), widget=RatingWidget.widget)
+                Field('rating', 'integer', default=1,  requires=IS_IN_SET([1,2,3,4,5]), widget=RatingWidget.widget),
+                Field('publish', 'boolean', default=True)
                 )
 
 db.define_table('event_review', 
@@ -213,7 +215,8 @@ db.define_table('event_review',
                 Field('type', 'string', length=25,requires=IS_LENGTH(25,2)), 
                 Field('date', 'datetime', default=datetime.datetime.now()), 
                 Field('text', 'text'),
-                Field('rating', 'integer', default=1, requires=IS_IN_SET([1,2,3,4,5]), widget=RatingWidget.widget)
+                Field('rating', 'integer', default=1, requires=IS_IN_SET([1,2,3,4,5]), widget=RatingWidget.widget),
+                Field('publish', 'boolean', default=True)
                 )
 
 

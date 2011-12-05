@@ -208,3 +208,9 @@ timestamp: 2011-11-21T10:02:21.106000
 ALTER TABLE place_review ADD rating INTEGER;
 timestamp: 2011-11-21T10:02:21.140000
 ALTER TABLE event_review ADD rating INTEGER;
+timestamp: 2011-12-05T18:38:33.264000
+ALTER TABLE region_review ADD publish CHAR(1);
+timestamp: 2011-12-05T18:38:33.326000
+ALTER TABLE place_review ADD publish CHAR(1);
+timestamp: 2011-12-05T18:38:33.373000
+ALTER TABLE event_review ADD publish CHAR(1);
