@@ -16,14 +16,14 @@
 
 <h1>{{=message}}</h1>
 <hr />
-{{if rec.photo:}}<a href="{{=URL('default', 'profile', args=[rec.ref_id], vars=dict(tbl=tablename))}}"><img width="255" src="{{=URL('default', 'download', args=[rec.photo])}}" title="{{=name}}"/></a>
+{{if rec.photo:}}<a href="{{=URL('default', 'profile', args=[rec.ref_id], vars=dict(tbl=tablename))}}"><img width="255px" height="192px" src="{{=URL('default', 'download', args=[rec.photo])}}" title="{{=name}}"/></a>
 {{pass}}
-{{if rec.photo1:}}<a href="{{=URL('default', 'profile', args=[rec.ref_id], vars=dict(tbl=tablename))}}"><img width="255" src="{{=URL('default', 'download', args=[rec.photo1])}}" title="{{=name}}"/></a>
+{{if rec.photo1:}}<a href="{{=URL('default', 'profile', args=[rec.ref_id], vars=dict(tbl=tablename))}}"><img width="255px"  height="192px" src="{{=URL('default', 'download', args=[rec.photo1])}}" title="{{=name}}"/></a>
 {{pass}}
-{{if rec.photo2:}}<a href="{{=URL('default', 'profile', args=[rec.ref_id], vars=dict(tbl=tablename))}}"><img width="255" src="{{=URL('default', 'download', args=[rec.photo2])}}" title="{{=name}}"/></a><br/><br/>
+{{if rec.photo2:}}<a href="{{=URL('default', 'profile', args=[rec.ref_id], vars=dict(tbl=tablename))}}"><img width="255px"  height="192px" src="{{=URL('default', 'download', args=[rec.photo2])}}" title="{{=name}}"/></a><br/><br/>
 {{pass}}
 <h2>
-<a href="{{=URL('default', 'reviewer_profile', args=[rec.author])}}"><img width=50 src="{{=URL('default', 'download', args=[db.reviewer[rec.author].photo])}}"/></a>
+<a href="{{=URL('default', 'reviewer_profile', args=[rec.author])}}"><img width="50px" height="38px" src="{{=URL('default', 'download', args=[db.reviewer[rec.author].photo])}}"/></a>
 {{=db.reviewer[rec.author].screenname}}</h2>
 <br/>
 <div>

@@ -22,7 +22,7 @@
             <h3>{{=rec.blurb}}</h3><br/>
             <h3>{{=T('Where')}}: </h3>{{=db.region[rec.region].name}}
             <a href="{{=URL('default', 'profile', args=[rec.region],vars=dict(tbl='region'))}}">
-                <img width='50' height='35' src="{{=URL('default', 'download', args=[db.region[rec.region].photo])}}", align="left"/>
+                <img width='50' height='37' src="{{=URL('default', 'download', args=[db.region[rec.region].photo])}}", align="left"/>
             </a><br/><br/><br/>
             <h3>{{=T('Cost')}}:</h3> {{=rec.cost}}
             <h3>{{=T('About')}}:</h3>  {{=rec.about}}
@@ -40,19 +40,19 @@
     <h3>{{=T('Reviews:')}}</h3>
     {{pass}}
    {{for g in graphics:}}
-        <a href="{{=URL('default', 'review', args=[g[0]], vars=dict(tbl=g[3]))}}"><img width='180px', src=   "{{=g[1]}}",  title='{{=g[2]}}' /></a>
+        <a href="{{=URL('default', 'review', args=[g[0]], vars=dict(tbl=g[3]))}}"><img width='180px' height="135px" src=   "{{=g[1]}}",  title='{{=g[2]}}' /></a>
    {{pass}}
     {{if rgraphics:}}
     <h3>{{=T('Products:')}}</h3>
     {{pass}}
    {{for g in rgraphics:}}
-        <a href="{{=URL('default', 'profile', args=[g[0]], vars=dict(tbl=g[3]))}}"><img width='180px', src=   "{{=g[1]}}",  title='{{=g[2]}}' /></a>
+        <a href="{{=URL('default', 'profile', args=[g[0]], vars=dict(tbl=g[3]))}}"><img width='180px'  height="135px"  src=   "{{=g[1]}}",  title='{{=g[2]}}' /></a>
    {{pass}}
     {{if egraphics:}}
     <h3>{{=T('Events:')}}</h3>
     {{pass}}
    {{for g in egraphics:}}
-        <a href="{{=URL('default', 'profile', args=[g[0]], vars=dict(tbl=g[3]))}}"><img width='180px', src=   "{{=g[1]}}",  title='{{=g[2]}}' /></a>
+        <a href="{{=URL('default', 'profile', args=[g[0]], vars=dict(tbl=g[3]))}}"><img width='180px'  height="135px"  src=   "{{=g[1]}}",  title='{{=g[2]}}' /></a>
    {{pass}}
 </div>
 {{else:}}
