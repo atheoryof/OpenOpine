@@ -299,7 +299,11 @@ def create_review():
             if not auth.has_membership('admin'):
                 table.author.writable = False
     viewname = tablelabel(session.tablename)
-    form = SQLFORM.grid(table, maxtextlength=15, csv=False,\
+    if auth.has_membership('admin'):
+        tablequery = (table.id > 0)
+    else: 
+        tablequery = (table.author == auth.user_id)
+    form = SQLFORM.grid(tablequery, maxtextlength=15, csv=False,\
                         headers=dict([(session.tablename+'_review.ref_id',viewname),(session.tablename+'_review.blurb', T('Short Description')),(session.tablename+'_review.author', T("Reviewer")),(session.tablename+'_review.title', T("Title")),(session.tablename+'_review.subject', T("Subject"))]), columns=dict([(session.tablename+'_review.ref_id',15),(session.tablename+'_review.blurb', 15),(session.tablename+'_review.author', 15),(session.tablename+'_review.title', 15),(session.tablename+'_review.subject', 15)]))
     return dict(searchrevs=[], searchprofs=[],tag_form='', form=form, message=T('Create %(tbl)s Review', dict(tbl=viewname)))
 
